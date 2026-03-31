@@ -95,7 +95,7 @@ public class DishRepository {
 
     public void detachIngredient(Integer dishId, Integer ingredientId) {
         String query = """
-                DELETE FROM dishingredients
+                DELETE FROM dish_ingredient
                 WHERE id_dish = ?
                   AND id_ingredient = ?
                 """;
@@ -114,8 +114,8 @@ public class DishRepository {
 
     public void attach(Integer dishId, Integer ingredientId) {
         String query = """
-                INSERT INTO dishingredients (id_dish, id_ingredient, quantity_required, unit)
-                VALUES (?, ?, ?, ?::unit_type)
+                INSERT INTO dish_ingredient (id_dish, id_ingredient, required_quantity, unit)
+                VALUES (?, ?, ?, ?::unit)
                 """;
 
         try (
@@ -163,7 +163,7 @@ public class DishRepository {
         StringBuilder query = new StringBuilder("""
                 SELECT i.id, i.name, i.price, i.category
                 FROM ingredient i
-                JOIN dishingredients di ON i.id = di.id_ingredient
+                JOIN dish_ingredient di ON i.id = di.id_ingredient
                 WHERE di.id_dish = ?
                 """);
 
