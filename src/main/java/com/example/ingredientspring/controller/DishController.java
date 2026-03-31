@@ -58,4 +58,21 @@ public class DishController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+    @GetMapping("/{id}/ingredients")
+    public ResponseEntity<?> getDishIngredient(
+            @PathVariable Integer id,
+            @RequestParam(required = false) String ingredientName,
+            @RequestParam(required = false) Double ingredientPriceAround) {
+        try {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .header("Content-Type", "application/json")
+                    .body(this.dishService.getDishIngredients(id, ingredientName, ingredientPriceAround));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 }
