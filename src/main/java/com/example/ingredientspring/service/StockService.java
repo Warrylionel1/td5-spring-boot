@@ -24,7 +24,7 @@ public class StockService {
             throw new ResourceNotFoundException("Ingredient with id " + id + " not found");
         }
         if (t==null ||  unit==null) {
-            throw new BadRequestException("Either mandatory query parameters are missing");
+            throw new BadRequestException("Either mandatory query parameters 'at' or 'unit' is not provided");
         }
 
         return this.stockMovementRepository.findByIngredientId(id, t, unit);

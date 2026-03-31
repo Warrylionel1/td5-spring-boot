@@ -29,7 +29,7 @@ public class DishService {
         return dish;
     }
 
-    public Dish AttachAndDetach(Integer dishId, List<Ingredient> ingredients) throws BadRequestException {
+    public Dish attachAndDetach(Integer dishId, List<Ingredient> ingredients) throws BadRequestException {
         if (ingredients.isEmpty()) {
             throw new BadRequestException("You need to specify at least one ingredient");
         }
