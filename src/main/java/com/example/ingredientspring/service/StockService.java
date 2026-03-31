@@ -18,15 +18,17 @@ public class StockService {
     private final StockMovementRepository stockMovementRepository;
     private final IngredientRepository ingredientRepository;
 
-    public StockValue findIngredientStock (Integer id, Instant t, Unit unit) throws Exception {
-        Ingredient ingredient = ingredientRepository.findById(id).orElse(null);
-        if (ingredient.getId() == null) {
-            throw new ResourceNotFoundException("Ingredient with id " + id + " not found");
-        }
-        if (t==null ||  unit==null) {
-            throw new BadRequestException("Either mandatory query parameters 'at' or 'unit' is not provided");
-        }
+    public StockValue findIngredientStock(Integer id, Instant at, Unit unit) throws BadRequestException {
 
-        return this.stockMovementRepository.findByIngredientId(id, t, unit);
+        if (at == null || unit == null) {
+            throw new BadRequestException(
+                    "Either mandatory query parameter `at` or `unit` is not provided."
+            );
+        }
+        ingredientRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Ingredient.id=" + id + " is not found")
+                );
+        return stockMovementRepository.findByIngredientId(id, at, unit);
     }
 }
