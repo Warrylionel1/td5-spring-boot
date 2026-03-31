@@ -17,11 +17,9 @@ public class IngredientService {
     }
 
     public Ingredient findById(Integer id) {
-        Ingredient ingredient = ingredientRepository.findById(id).orElse(null);
-        if (ingredient.getId() == null) {
-            throw new ResourceNotFoundException("Ingredient with id " + id + " not found");
-        }
-
-        return ingredient;
+        return ingredientRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Ingredient.id=" + id + " is not found")
+                );
     }
 }
