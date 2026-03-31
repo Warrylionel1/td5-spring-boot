@@ -2,6 +2,7 @@ package com.example.ingredientspring.repository;
 
 import com.example.ingredientspring.entities.Dish.Dish;
 import com.example.ingredientspring.entities.Dish.DishTypeEnum;
+import com.example.ingredientspring.entities.Ingredient.CategoryEnum;
 import com.example.ingredientspring.entities.Ingredient.Ingredient;
 import com.example.ingredientspring.entities.Ingredient.Unit;
 import org.springframework.stereotype.Repository;
@@ -151,5 +152,57 @@ public class DishRepository {
                 }
             });
         }
+    }
+
+    public List<Ingredient> findIngredientByDishId(
+            Integer dishId,
+            String ingredientName,
+            Double ingredientPriceAround) {
+        List<Ingredient> ingredients = new ArrayList<>();
+
+        StringBuilder query = new StringBuilder("""
+                SELECT i.id, i.name, i.price, i.category
+                FROM ingredient i
+                JOIN dishingredients di ON i.id = di.id_ingredient
+                WHERE di.id_dish = ?
+                """);
+
+        if (ingredientName != null && !ingredientName.isBlank()) {
+            query.append(" AND i.name ILIKE ? ");
+        }
+        if (ingredientPriceAround != null) {
+            query.append(" AND i.price BETWEEN ? AND ? ");
+        }
+
+        try (
+                Connection connection = dataSource.getConnection();
+                PreparedStatement ps = connection.prepareStatement(query.toString())
+        ) {
+            int index = 1;
+
+            ps.setInt(index++, dishId);
+
+            if (ingredientName != null && !ingredientName.isBlank()) {
+                ps.setString(index++, "%" + ingredientName + "%");
+            }
+            if (ingredientPriceAround != null) {
+                ps.setDouble(index++, ingredientPriceAround - 50);
+                ps.setDouble(index++, ingredientPriceAround + 50);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Ingredient ingredient = new Ingredient();
+                ingredient.setId(rs.getInt("id"));
+                ingredient.setName(rs.getString("name"));
+                ingredient.setPrice(rs.getDouble("price"));
+                ingredient.setCategory(CategoryEnum.valueOf(rs.getString("category")));
+                ingredients.add(ingredient);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return ingredients;
     }
 }
