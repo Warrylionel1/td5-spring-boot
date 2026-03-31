@@ -27,10 +27,10 @@ public class StockMovementRepository {
                         WHEN type = 'OUT' THEN -quantity
                         ELSE 0
                     END) AS qte
-                FROM stockmovement
+                FROM stock_movement
                 WHERE id_ingredient = ?
                   AND creation_datetime <= ?
-                  AND unit = ?::unit_type
+                  AND unit = ?::unit
                 GROUP BY id_ingredient, unit
                 """;
 
