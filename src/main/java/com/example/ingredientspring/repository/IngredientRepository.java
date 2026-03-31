@@ -79,7 +79,7 @@ public class IngredientRepository {
         String query = """
                 SELECT i.id, i.name, i.price, i.category
                 FROM ingredient i
-                JOIN dishingredients di ON i.id = di.id_ingredient
+                JOIN dish_ingredient di ON i.id = di.id_ingredient
                 WHERE di.id_dish = ?
                 """;
 
