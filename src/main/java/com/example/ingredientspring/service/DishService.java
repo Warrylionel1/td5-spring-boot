@@ -50,4 +50,9 @@ public class DishService {
         }
         return this.dishRepository.findById(dishId).orElse(null);
     }
+
+    public List<Ingredient> getDishIngredients(Integer dishId, String ingredientName, Double ingredientPriceAround) {
+        dishRepository.findById(dishId).orElseThrow(() -> new ResourceNotFoundException("Dish with id " + dishId + " not found"));
+        return dishRepository.findIngredientByDishId(dishId, ingredientName, ingredientPriceAround);
+    }
 }
