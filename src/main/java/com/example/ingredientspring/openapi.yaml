@@ -44,6 +44,29 @@ paths:
         404:
           description: Ingredient not found
 
+  /ingredients/{id}/stock:
+    get:
+      tags: [ Ingredients ]
+      summary: Get ingredient stock
+      parameters:
+        - $ref: '#/components/parameters/IngredientId'
+        - $ref: '#/components/parameters/At'
+        - $ref: '#/components/parameters/Unit'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StockValue'
+              example:
+                quantity: 10
+                unit: KG
+        400:
+          description: Missing parameters
+        404:
+          description: Ingredient not found
+
 components:
 
   parameters:
