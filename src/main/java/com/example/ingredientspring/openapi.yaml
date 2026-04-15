@@ -23,6 +23,27 @@ paths:
                   category: VEGETABLE
                   price: 2.5
 
+  /ingredients/{id}:
+    get:
+      tags: [ Ingredients ]
+      summary: Get ingredient by id
+      parameters:
+        - $ref: '#/components/parameters/IngredientId'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
+              example:
+                id: 1
+                name: Tomato
+                category: VEGETABLE
+                price: 2.5
+        404:
+          description: Ingredient not found
+
 components:
 
   parameters:
