@@ -1,0 +1,114 @@
+openapi: 3.0.3
+info:
+  title: Ingredient and Dish API
+  version: 1.0.0
+
+paths:
+
+
+components:
+
+  parameters:
+    IngredientId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1
+
+    DishId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1
+
+    At:
+      name: at
+      in: query
+      required: true
+      schema:
+        type: string
+      example: 2026-06-01T12:00:00Z
+
+    Unit:
+      name: unit
+      in: query
+      required: true
+      schema:
+        type: string
+      example: KG
+
+  schemas:
+
+    Ingredient:
+      type: object
+      required:
+        - id
+        - name
+        - category
+        - price
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Tomato
+        category:
+          type: string
+          example: VEGETABLE
+        price:
+          type: number
+          example: 2.5
+
+    StockValue:
+      type: object
+      required:
+        - quantity
+        - unit
+      properties:
+        quantity:
+          type: number
+          example: 10
+        unit:
+          type: string
+          example: KG
+
+    DishIngredient:
+      type: object
+      required:
+        - ingredient
+      properties:
+        ingredient:
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              type: integer
+              example: 1
+
+    Dish:
+      type: object
+      required:
+        - id
+        - name
+        - price
+        - ingredients
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Grilled Chicken
+        price:
+          type: number
+          example: 12.9
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ingredient'
