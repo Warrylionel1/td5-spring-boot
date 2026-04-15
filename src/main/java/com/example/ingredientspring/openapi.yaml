@@ -67,6 +67,29 @@ paths:
         404:
           description: Ingredient not found
 
+  /dishes:
+    get:
+      tags: [ Dishes ]
+      summary: Get all dishes
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dish'
+              example:
+                - id: 1
+                  name: Grilled Chicken
+                  price: 12.9
+                  ingredients:
+                    - id: 2
+                      name: Chicken
+                      category: ANIMAL
+                      price: 8.0
+
 components:
 
   parameters:
