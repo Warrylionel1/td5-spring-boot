@@ -90,6 +90,33 @@ paths:
                       category: ANIMAL
                       price: 8.0
 
+  /dishes/{id}/ingredients:
+    put:
+      tags: [ Dishes ]
+      summary: Update dish ingredients
+      parameters:
+        - $ref: '#/components/parameters/DishId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/DishIngredient'
+            example:
+              - ingredient:
+                  id: 1
+              - ingredient:
+                  id: 2
+      responses:
+        200:
+          description: OK
+        400:
+          description: Missing body
+        404:
+          description: Dish not found
+
 components:
 
   parameters:
