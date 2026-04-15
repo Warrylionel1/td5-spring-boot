@@ -4,7 +4,24 @@ info:
   version: 1.0.0
 
 paths:
-
+  /ingredients:
+    get:
+      tags: [ Ingredients ]
+      summary: Get all ingredients
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ingredient'
+              example:
+                - id: 1
+                  name: Tomato
+                  category: VEGETABLE
+                  price: 2.5
 
 components:
 
